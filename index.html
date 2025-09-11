@@ -1,89 +1,276 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John's HomePage! </title>  <link rel="stylesheet" href="style.css">
-   
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>个人主义宣言 — 海报</title>
+
+<!-- 字体：Poppins (现代无衬线) + Noto Sans SC（中文） -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700;900&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+/* =============================
+配色与基础变量（便于修改）
+============================= */
+:root{
+--bg: #F5F5F5; /* 背景（或改为 #FFFFFF） */
+--primary: #FF6F61; /* 亮珊瑚橙（主色） */
+--accent: #007BFF; /* 电光蓝（辅色） */
+--spark: #FFD700; /* 柠檬黄（点缀） */
+--text: #111827; /* 主文本色（深灰/近黑） */
+--muted: #6B7280; /* 次级文字 */
+--max-width: 980px;
+--bleed: 48px; /* 留白边距 */
+--radius: 16px;
+}
+
+/* =============================
+全局样式
+============================= */
+*{box-sizing:border-box}
+html,body{
+height:100%;
+margin:0;
+font-family: "Noto Sans SC", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+background: linear-gradient(180deg, var(--bg), #FFFFFF 60%);
+color:var(--text);
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
+
+/* 页面容器，居中并限制宽度 */
+.page{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding: calc(var(--bleed) * 0.5);
+}
+
+/* 海报卡片（实际视觉） */
+.poster{
+width: min(92vw, var(--max-width));
+background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,250,250,0.9));
+border-radius: var(--radius);
+padding: 48px;
+box-shadow: 0 14px 40px rgba(16,24,40,0.12);
+position:relative;
+overflow:visible;
+display:grid;
+grid-template-columns: 1fr 360px;
+gap: 32px;
+align-items:center;
+}
+
+/* 左侧文字区 */
+.content{
+padding-right: 6px;
+}
+
+/* 大标题（强烈、现代） */
+.title{
+font-family: "Poppins", "Noto Sans SC", sans-serif;
+font-weight:800;
+font-size: clamp(28px, 5vw, 56px);
+line-height:1.02;
+letter-spacing: -0.02em;
+color: var(--primary);
+margin: 0 0 18px 0;
+text-transform: none;
+}
+
+/* 小节引导 / 副标题 */
+.subtitle{
+font-weight:600;
+color:var(--accent);
+margin-bottom:14px;
+font-size: clamp(13px, 2.2vw, 16px);
+}
+
+/* 正文：分行显示，留白感 */
+.declaration{
+font-weight:400;
+color:var(--text);
+font-size: clamp(14px, 2.2vw, 18px);
+line-height:1.6;
+margin:0 0 22px 0;
+white-space:pre-line; /* 支持换行 */
+}
+
+/* 强调词用点缀色高亮 */
+.declaration .em{
+color:var(--primary);
+font-weight:700;
+}
+.declaration .em-accent{
+color:var(--accent);
+font-weight:700;
+}
+
+/* 底部签名 / 小字 */
+.sig{
+color:var(--muted);
+font-size:13px;
+letter-spacing:0.02em;
+}
+
+/* 右侧视觉区：几何图形 + 摘要卡 */
+.visual{
+position:relative;
+min-height:220px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.card{
+width:100%;
+background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.86));
+border-radius:12px;
+padding:18px;
+box-shadow: 0 8px 24px rgba(16,24,40,0.06);
+position:relative;
+overflow:visible;
+display:flex;
+flex-direction:column;
+gap:8px;
+min-height:180px;
+align-items:flex-start;
+justify-content:center;
+}
+
+.card h4{
+margin:0;
+font-size:18px;
+color:var(--text);
+font-weight:700;
+}
+.card p{
+margin:0;
+color:var(--muted);
+font-size:13px;
+line-height:1.4;
+}
+
+/* 装饰性的几何图形（使用绝对定位 + transform 保持设计感） */
+.shape {
+position:absolute;
+pointer-events:none;
+will-change:transform,opacity;
+filter: drop-shadow(0 6px 18px rgba(0,0,0,0.06));
+}
+
+/* 大圆圈（左上）*/
+.shape.circle {
+width:140px;height:140px;
+border-radius:50%;
+background: radial-gradient(circle at 35% 35%, rgba(255,111,97,0.98), rgba(255,111,97,0.82) 45%, transparent 70%);
+top:-36px;
+left:-40px;
+transform:rotate(-12deg);
+opacity:0.95;
+}
+
+/* 斜三角（右上）*/
+.shape.tri{
+width:0;height:0;
+border-left:80px solid transparent;
+border-right:120px solid transparent;
+border-bottom:150px solid rgba(0,123,255,0.12);
+right:-30px;
+top:-20px;
+transform:rotate(6deg);
+}
+
+/* 小黄点（叠加）*/
+.shape.dot{
+width:14px;height:14px;border-radius:50%;
+background:var(--spark);
+right:36px;
+bottom:28px;
+opacity:0.98;
+}
+
+/* 横向线条用于视觉分割 */
+.accent-line{
+height:4px;
+width:64px;
+border-radius:6px;
+background: linear-gradient(90deg, var(--primary), var(--accent));
+margin:12px 0 6px 0;
+}
+
+/* 响应式：窄屏下改成单列 */
+@media (max-width:880px){
+.poster{
+grid-template-columns: 1fr;
+padding:28px;
+}
+.visual{
+order: -1;
+margin-bottom:6px;
+}
+.shape.circle{ display:none; }
+}
+
+/* 打印友好（去除阴影与背景） */
+@media print{
+html,body{background:#fff}
+.poster{box-shadow:none}
+.shape{display:none}
+}
+
+/* 小屏时微调文字间距 */
+@media (max-width:420px){
+.title{font-size:28px}
+.poster{padding:20px}
+}
+
+/* 简单焦点样式（可访问性） */
+a,button{outline: none;}
+a:focus, button:focus{box-shadow:0 0 0 4px rgba(0,123,255,0.18); border-radius:6px}
+</style>
 </head>
 <body>
+<main class="page" role="main" aria-labelledby="poster-title">
+<article class="poster" aria-label="个人主义宣言海报">
+<!-- 装饰形状 -->
+<div class="shape circle" aria-hidden="true"></div>
+<div class="shape tri" aria-hidden="true"></div>
+<div class="shape dot" aria-hidden="true"></div>
 
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <a href="#" class="nav-logo">John Doe</a> <ul class="nav-menu">
-                    <li><a href="#home">Homepage</a></li>
-                    <li><a href="#about">About Me</a></li>
-                    <li><a href="#projects">My Project</a></li>
-                    <li><a href="#contact">Contact with Me</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+<!-- 左侧：文字内容 -->
+<section class="content">
+<h1 id="poster-title" class="title">我相信色彩能定义态度。</h1>
+<div class="subtitle">个人主义 · 设计宣言</div>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="container">
-                <h1>Hi, This is John</h1> <p>An international sales person full of passion and demand, from China.</p> </div>
-        </section>
+<pre class="declaration" aria-live="polite">
+明亮，不是张扬，而是拒绝灰暗。
+协调，不是妥协，而是精准平衡。
+简洁，不是空白，而是极致的留白。
 
-        <section id="about" class="about-me">
-            <div class="container">
-                <h2>About Me</h2>
-                <div class="about-content">
-                    <img src="images/logof.png"  alt="您的头像" class="profile-pic"> <p>
-                        I have rich grassroots and management work experience in production management and quality control in the industrial manufacturing field, and I am also very familiar with the process of foreign trade transactions. Therefore, I am your best international trade partner.
-                        ======================================================
-                        我有丰富的工业制造领域的生产管理与质量控制方面的基层与管理工作经验，同时对外贸交易的流程也十分熟悉。因此我是你的最好的国际贸易伙伴。
-                    </p>
-                </div>
-                <h3>My Business</h3>
-                <div class="successful project">
-                    <span>ODM-factory：Connector</span>
-                    <span>Spring Machines</span>
-                    <span>。。。</span>
-                   
-                    </div>
-            </div>
-        </section>
+我在纷繁中寻找秩序，
+在极简中追逐锋芒。
+不盲从，不附和，
+用属于自己的调色盘，
+绘制属于我的存在。
+</pre>
 
-        <section id="projects" class="my-projects">
-            <div class="container">
-                <h2>我的项目</h2>
-                <div class="project-grid">
-                    <div class="project-card">
-                        <img src="images/logo1.png" alt="项目一截图" > <h3>项目一：个人博客</h3>
-                        <p>一个使用 React 和 Node.js 构建的响应式个人博客平台。用户可以发布文章、发表评论，并进行分类管理。</p>
-                        <a href="#" class="project-link">查看详情 &rarr;</a> </div>
-                    <div class="project-card">
-                        <img src="images/logo1.png" alt="项目二截图"> <h3>项目二：在线商城</h3>
-                        <p>一个模拟的电子商务网站，实现了商品浏览、购物车、用户登录和订单管理等核心功能。前端使用 Vue.js 开发。</p>
-                        <a href="#" class="project-link">查看详情 &rarr;</a> </div>
-                    <div class="project-card">
-                        <img src="images/logo1.png" alt="项目三截图"> <h3>项目三：任务管理工具</h3>
-                        <p>一个帮助团队协作的任务管理Web应用。用户可以创建项目、分配任务、并跟踪进度。技术栈为 MERN。</p>
-                        <a href="#" class="project-link">查看详情 &rarr;</a> </div>
-                </div>
-            </div>
-        </section>
+<div class="accent-line" aria-hidden="true"></div>
 
-        <section id="contact" class="contact-me">
-            <div class="container">
-                <h2>Contact with Me</h2>
-                <p>如果您对我的项目感兴趣，或者有任何合作意向，欢迎通过以下方式与我联系。</p>
-                <div class="social-links">
-    <a href="mailto:doe.sama@outlook.com">邮箱</a>
-    <a href="https://wa.me/8617322065372" target="_blank">WhatsApp</a> <a href="#" target="_blank">GitHub</a>
+<div class="sig">— 设计即态度</div>
+</section>
 
+<!-- 右侧：视觉卡片 -->
+<aside class="visual" aria-hidden="false">
+<div class="card" role="complementary" aria-label="视觉摘要">
+<h4>调色建议</h4>
+<p>主色：亮珊瑚橙（#FF6F61）<br>辅色：电光蓝（#007BFF） · 点缀：柠檬黄（#FFD700）</p>
+<div style="height:8px"></div>
+<h4>字体建议</h4>
+<p>Poppins / Noto Sans SC — 标题粗体、正文细体，保持现代感与可读性。</p>
 </div>
-               
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 John Doe. 保留所有权利。</p> </div>
-    </footer>
-
+</aside>
+</article>
+</main>
 </body>
 </html>
